@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AlbumCollectionViewCell" id="gTV-IL-0wX" customClass="AlbumCollectionViewCell" customModule="HW14" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="190" height="246"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="190" height="246"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="Sgi-QE-hho">
+                        <rect key="frame" x="0.0" y="0.0" width="190" height="246"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image_01" translatesAutoresizingMaskIntoConstraints="NO" id="8WA-AM-quN">
+                                <rect key="frame" x="0.0" y="0.0" width="190" height="190"/>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="190" id="Qa5-uj-n2i"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vZo-08-QIM">
+                                <rect key="frame" x="0.0" y="196" width="190" height="23.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lnk-1T-H4y">
+                                <rect key="frame" x="0.0" y="225.5" width="190" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" systemColor="secondaryLabelColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="Sgi-QE-hho" secondAttribute="trailing" id="08a-tH-cGb"/>
+                <constraint firstAttribute="bottom" secondItem="Sgi-QE-hho" secondAttribute="bottom" id="JR3-XK-vU8"/>
+                <constraint firstItem="Sgi-QE-hho" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="ScI-Ud-Vgm"/>
+                <constraint firstItem="Sgi-QE-hho" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="wBa-PC-6g1"/>
+            </constraints>
+            <size key="customSize" width="200" height="247"/>
+            <connections>
+                <outlet property="albumImageView" destination="8WA-AM-quN" id="zOo-SW-6vN"/>
+                <outlet property="albumLabel" destination="vZo-08-QIM" id="AYM-Tw-1wR"/>
+                <outlet property="secondLabel" destination="Lnk-1T-H4y" id="uqY-WB-wxP"/>
+            </connections>
+            <point key="canvasLocation" x="28.985507246376812" y="129.91071428571428"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="image_01" width="225" height="225"/>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="secondarySystemBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
