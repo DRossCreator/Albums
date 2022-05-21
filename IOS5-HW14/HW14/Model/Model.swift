@@ -7,15 +7,21 @@
 
 import UIKit
 
-struct Albums {
+struct AlbumsCollectionCell {
     let firstLabel: String
     let imageName: String
     let secondLabel: String
+}
 
-    enum SectionType {
-        case collection(model: [Albums])
-        case tableCells(model: Albums)
-    }
+struct CategoryTableCell {
+    let iconName: String
+    let firstLabel: String
+    let secondLabel: String
+}
+
+enum SectionType {
+    case collection(models: [AlbumsCollectionCell], rows: CGFloat)
+    case tableCells(models: [CategoryTableCell])
 }
 
 //struct Options {
@@ -29,9 +35,4 @@ struct Albums {
 //    case tableCell(model: Options)
 //}
 
-struct Section {
-    let sectionNumber: Int
-    let sectionType: String
-    let options: [Albums.SectionType]
-}
 

@@ -8,7 +8,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-    var models = [Section]()
+    var models = [SectionType]()
 
     //MARK: - Views
 
@@ -36,36 +36,40 @@ class ViewController: UIViewController {
             forCellReuseIdentifier: CategoryTableViewCell.identifier
         )
 
+        albumsTableView.allowsSelection = true
         albumsTableView.delegate = self
         albumsTableView.dataSource = self
     }
 
     ///Adding sections with content to the array of sections.
     private func fillingContent() {
-        models.append(Section(sectionNumber: 1, sectionType: "My Albums", options: [
-            .collection(model: [
-                Albums(firstLabel: "Recents", imageName: "image_01", secondLabel: "5"),
-                Albums(firstLabel: "Instagram", imageName: "image_02", secondLabel: "20"),
-                Albums(firstLabel: "Lightroom", imageName: "image_03", secondLabel: "1"),
-                Albums(firstLabel: "VK", imageName: "image_04", secondLabel: "15"),
-                ]
-        )]))
+        models.append(.collection(models: [
+            AlbumsCollectionCell(firstLabel: "Recents", imageName: "image_01", secondLabel: "5"),
+            AlbumsCollectionCell(firstLabel: "Instagram", imageName: "image_02", secondLabel: "20"),
+            AlbumsCollectionCell(firstLabel: "Lightroom", imageName: "image_03", secondLabel: "1"),
+            AlbumsCollectionCell(firstLabel: "VK", imageName: "image_04", secondLabel: "15"),
+            ], rows: 2))
 
-        models.append(Section(sectionNumber: 2, sectionType: "Shared Albums", options: [
-            .collection(model: [
-                Albums(firstLabel: "Recents", imageName: "image_01", secondLabel: "5"),
-                Albums(firstLabel: "Instagram", imageName: "image_02", secondLabel: "20"),
-                Albums(firstLabel: "Lightroom", imageName: "image_03", secondLabel: "1"),
-                Albums(firstLabel: "VK", imageName: "image_04", secondLabel: "15"),
-                ]
-        )]))
 
-        models.append(Section(sectionNumber: 3, sectionType: "Media Types", options: [
-            .tableCells(model: Albums(firstLabel: "Videos", imageName: "video", secondLabel: "1")),
+        models.append(.collection(models: [
+            AlbumsCollectionCell(firstLabel: "Recents", imageName: "image_01", secondLabel: "5"),
+            AlbumsCollectionCell(firstLabel: "Instagram", imageName: "image_02", secondLabel: "20"),
+            AlbumsCollectionCell(firstLabel: "Lightroom", imageName: "image_03", secondLabel: "1"),
+            AlbumsCollectionCell(firstLabel: "VK", imageName: "image_04", secondLabel: "15"),
+            ], rows: 1))
+
+        models.append(.tableCells(models: [
+            CategoryTableCell(iconName: "video", firstLabel: "Videos", secondLabel: "1"),
+            CategoryTableCell(iconName: "person.crop.square", firstLabel: "Selfies", secondLabel: "134"),
+            CategoryTableCell(iconName: "cube", firstLabel: "Portrait", secondLabel: "3"),
+            CategoryTableCell(iconName: "camera.viewfinder", firstLabel: "Screenshots", secondLabel: "20"),
+            CategoryTableCell(iconName: "record.circle", firstLabel: "Screen Recording", secondLabel: "20"),
         ]))
 
-        models.append(Section(sectionNumber: 4, sectionType:  "Utilities", options: [
-            .tableCells(model: Albums(firstLabel: "Imports", imageName: "square.and.arrow.down", secondLabel: "3")),
+        models.append(.tableCells(models: [
+            CategoryTableCell(iconName: "square.and.arrow.down", firstLabel: "Imports", secondLabel: "4"),
+            CategoryTableCell(iconName: "eye.slash", firstLabel: "Hidden", secondLabel: "18"),
+            CategoryTableCell(iconName: "trash", firstLabel: "Recently Deleted", secondLabel: "41"),
         ]))
     }
 
@@ -76,7 +80,7 @@ class ViewController: UIViewController {
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     enum Metric {
         static let numberOfRowsInSection = 1
-        static let heightAlbumsCells: CGFloat = 270
+        static let heightAlbumsCells: CGFloat = 265
         static let heightOptionsCells: CGFloat = 50
         static let heightForHeaderInSection: CGFloat = 50
         static let headerLabelFontSize: CGFloat = 21
@@ -87,32 +91,40 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 
     enum Strings {
         static let headerButtonTitle = "See All"
-    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //если установить значение больше одного, то приложение крашится
-        return Metric.numberOfRowsInSection
+        static let firstHeader = "My Albums"
+        static let secondHeader = "People & Places"
+        static let thirdHeader = "Media Types"
+        static let fourthHeader = "Utilities"
 
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return models.count
+        models.count
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch models[section] {
+        case .collection(_, _):
+            return Metric.numberOfRowsInSection
+        case .tableCells(let models):
+            return models.count
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let model = models[indexPath.section].options[indexPath.row]
-
-        switch model.self {
-        case .collection(let model):
+        switch models[indexPath.section] {
+        case .collection(let models, _):
             guard let cell = albumsTableView.dequeueReusableCell(
                 withIdentifier: AlbumsTableViewCell.identifier,
                 for: indexPath
             ) as? AlbumsTableViewCell else {
                 return UITableViewCell()
             }
-            cell.configure(with: model)
+            cell.configure(with: models)
             return cell
-        case .tableCells(let model):
+
+        case .tableCells(let models):
+            let model = models[indexPath.row]
             guard let cell = albumsTableView.dequeueReusableCell(
                 withIdentifier: CategoryTableViewCell.identifier,
                 for: indexPath
@@ -125,14 +137,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let section = models[indexPath.section].sectionNumber
-
-        switch section.self {
-        case 1:
-            return (Metric.heightAlbumsCells * 2) - 10
-        case 2:
-            return Metric.heightAlbumsCells
-        default:
+        switch models[indexPath.section] {
+        case .collection(_,let rows):
+            return Metric.heightAlbumsCells * rows
+        case .tableCells(_):
             return Metric.heightOptionsCells
         }
 
@@ -143,7 +151,13 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         return Metric.heightForHeaderInSection
     }
 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        albumsTableView.deselectRow(at: indexPath, animated: true)
+    }
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headers = [Strings.firstHeader, Strings.secondHeader, Strings.thirdHeader, Strings.fourthHeader]
+
         let sectionHeaderView = UIView()
 
         let sectionHeaderButton: UIButton = {
@@ -156,7 +170,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let sectionHeaderLabel: UILabel = {
             let myLabel = UILabel()
 
-            myLabel.text = models[section].sectionType
+            myLabel.text = headers[section]
             myLabel.textColor = .black
             myLabel.font = UIFont.boldSystemFont(ofSize: Metric.headerLabelFontSize)
 
