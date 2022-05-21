@@ -24,7 +24,7 @@ class AlbumCollectionViewCell: UICollectionViewCell {
     //MARK: - Functions
 
     ///substitution of values in a collection cell
-    public func configure(with model: Albums) {
+    public func configure(with model: AlbumsCollectionCell) {
         self.albumLabel.text = model.firstLabel
         self.albumImageView.image = UIImage(named: model.imageName)
         self.secondLabel.text = model.secondLabel

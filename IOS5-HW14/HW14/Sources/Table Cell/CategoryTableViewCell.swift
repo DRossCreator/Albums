@@ -27,9 +27,9 @@ class CategoryTableViewCell: UITableViewCell {
     //MARK: - Functions
 
     ///substitution of values in a tableViewCell.
-    public func configure(with model: Albums) {
+    public func configure(with model: CategoryTableCell) {
         self.categoryNameLabel.text = model.firstLabel
-        self.categoryImageView.image = UIImage(systemName: model.imageName)
+        self.categoryImageView.image = UIImage(systemName: model.iconName)
         self.numberOfPhotoLabel.text = model.secondLabel
     }
 

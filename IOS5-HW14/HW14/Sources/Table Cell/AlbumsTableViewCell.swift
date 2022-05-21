@@ -7,9 +7,16 @@
 
 import UIKit
 
+protocol AlbumsTableViewCellDelegate: AnyObject {
+    func didSelectItems(with model: AlbumsCollectionCell)
+}
+
 class AlbumsTableViewCell: UITableViewCell {
+
+    public weak var delegate: AlbumsTableViewCellDelegate?
+
     static let identifier = "AlbumsTableViewCell"
-    var albums = [Albums]()
+    private var albums = [AlbumsCollectionCell]()
 
     //MARK: Views
 
@@ -37,7 +44,7 @@ class AlbumsTableViewCell: UITableViewCell {
         )
     }
 
-    func configure(with models: [Albums]) {
+    public func configure(with models: [AlbumsCollectionCell]) {
         self.albums = models
         albumCollectionView.reloadData()
     }
@@ -58,9 +65,10 @@ extension AlbumsTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
         static let leftEdgeinsetForSection: CGFloat = 20
         static let bottomEdgeinsetForSection: CGFloat = 30
         static let rightEdgeinsetForSection: CGFloat = 20
+    }
 
-
-
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -80,6 +88,11 @@ extension AlbumsTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: Metric.topEdgeinsetForSection, left: Metric.leftEdgeinsetForSection, bottom: Metric.bottomEdgeinsetForSection, right: Metric.rightEdgeinsetForSection)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let model = albums[indexPath.row]
+        delegate?.didSelectItems(with: model)
     }
 
 }
